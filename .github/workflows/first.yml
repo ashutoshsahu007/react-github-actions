@@ -6,7 +6,6 @@ on:
       - main
       - dev
       - qa
-      - prod  
 jobs: 
     first-job: 
         runs-on: ubuntu-latest
