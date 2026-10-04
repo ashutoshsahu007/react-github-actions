@@ -1,7 +1,12 @@
 name: "first workflow"
 on: 
   push:
-  pull_request:  
+  pull_request:
+    branches: 
+      - main
+      - dev
+      - qa
+      - prod  
 jobs: 
     first-job: 
         runs-on: ubuntu-latest
@@ -17,3 +22,5 @@ jobs:
               
             - name: make react build
               run: npm run build  
+
+              
