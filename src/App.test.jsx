@@ -12,7 +12,7 @@ test("renders Code Step By Step heading", () => {
 
   const heading = screen.getByRole("heading", {
     level: 1,
-    name: / Code Step Wise Step/i,
+    name: /Code Step Wise Step/i,
   });
 
   expect(heading).toBeInTheDocument();
