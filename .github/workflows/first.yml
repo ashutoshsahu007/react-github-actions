@@ -32,4 +32,11 @@ jobs:
             - name: make react build
               run: npm run build  
 
+            - name: create artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                   name: react-build
+                   path: /dist
+                   retention-days: 7  
+
               # added comment for testing purpose , try to understand the things bro 
