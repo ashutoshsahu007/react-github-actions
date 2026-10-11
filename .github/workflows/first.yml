@@ -1,42 +1,55 @@
 name: "first workflow"
-on: 
+on:
   push:
   pull_request:
-    branches: 
+    branches:
       - main
       - dev
       - qa
 
-jobs: 
-    first-job: 
-        runs-on: ubuntu-latest
-        steps: 
-            - name: checkout
-              uses: actions/checkout@v4
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
 
-            - name: "setup node js in vm"
-              uses: actions/setup-node@v4  
-              with: 
-                node-version: 24
-                cache: npm 
+      - name: "setup node js in vm"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
 
-            - name: install dependency 
-              run: npm ci 
-             
-            - name: run ESLint in app 
-              run: npm run lint  
+      - name: install dependency
+        run: npm ci
 
-            - name: run test cases
-              run: npm run test  
-              
-            - name: make react build
-              run: npm run build  
+      - name: run ESLint in app
+        run: npm run lint
 
-            - name: create artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                   name: react-build
-                   path: dist/
-                   retention-days: 7  
+      - name: run test cases
+        run: npm run test
 
-              # added comment for testing purpose , try to understand the things bro 
+      - name: make react build
+        run: npm run build
+
+      - name: create artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: dist/
+          retention-days: 7
+
+  deploy-job:
+    needs: [first-job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: "Install vercel cli"
+        run: npm install --global vercel
+
+      - name: "deployment on vercel"
+        run: vercel --prod --yes --token="${{secrets.VERCEL_TOKEN}}"
+
+
